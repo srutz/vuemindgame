@@ -8,7 +8,7 @@ function getColor(color: number) {
 export const Dot = defineComponent((props) => {
   return () => (
     <div
-      class="w-2 h-2 rounded-full border border-zinc-600"
+      class="w-8 h-8 rounded-full border border-zinc-600"
       style={{ backgroundColor: getColor(props.color) }}
     />
   )
