@@ -11,6 +11,9 @@ export type Row = {
 }
 
 export type Game = {
+  nColumns: number,
+  nColors: number,
+  nAttempts: number,
   status: 'stopped' | 'playing' | 'won' | 'lost'
   code: Row
   attempts: Row[]
@@ -18,23 +21,23 @@ export type Game = {
 
 export const useGameStore = defineStore('game', () => {
   const game = ref<Game | null>()
-  const nColumns = 4
-  const nColors = 6
-  const nAttempts = 8
-  function randomRow() {
-    const colors = Array.from({ length: nColumns }, () => Math.floor(Math.random() * nColors))
+  function randomRow(n: number) {
+    const colors = Array.from({ length: n }, () => Math.floor(Math.random() * n))
     return { colors, feedback: [] }
   }
   function emptyRow() {
-    return { colors: Array.from({ length: nColumns }, () => -1), feedback: [] }
+    return { colors: Array.from({ length: game.value!.nColumns }, () => -1), feedback: [] }
   }
-  function newGame() {
+  function newGame(nColumns = 4, nColors = 6, nAttempts = 8) {
     game.value = {
       status: 'stopped',
-      code: randomRow(),
+      code: randomRow(nColumns),
       attempts: [],
+      nColumns,
+      nColors,
+      nAttempts,
     }
-    for (let i = 0; i < nAttempts; i++) {
+    for (let i = 0; i < game.value!.nAttempts; i++) {
       game.value.attempts.push(emptyRow())
     }
   }

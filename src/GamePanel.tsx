@@ -1,40 +1,48 @@
-import { defineComponent, toRefs, PropType } from 'vue'
-import { useGameStore, type Row } from './Game'
-import { Dot } from './Dot'
+import { defineComponent, ref, toRefs, watch } from 'vue'
+import { useGameStore } from './Game'
+import { ColorDot } from './ColorDot'
+import { GameRow } from './GameRow'
+
+function toReversed<T>(arr: T[]) {
+  return [...arr].reverse()
+}
+
 
 export const GamePanel = defineComponent({
   setup() {
     const { game } = toRefs(useGameStore())
-    return () => (
-      <div class="flex flex-col gap-2 bg-gray-700 text-white p-4">
-        <GameRow row={game.value!.code} key="coderow" />
-        <div class="h-2 border-t border-gray-500 my-2" />
-        {game.value!.attempts.map((attempt, y) => (
-          <GameRow row={attempt} key={y} />
-        ))}
-        <button type="button" class="mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">
-          Submit Guess
-        </button>
-      </div>
-    )
+    const selectedColor = ref(-1)
+    function toggleSelection(color: number) {
+      console.log('toggleSelection called with color:', color, 'current selectedColor:', selectedColor.value)
+      selectedColor.value = selectedColor.value === color ? -1 : color
+      console.log('new selectedColor:', selectedColor.value)
+    }
+    watch(selectedColor, (newColor) => {
+      console.log('Selected color changed to', selectedColor.value)
+    })
+    return () => {
+      console.log('GamePanel rendering, selectedColor:', selectedColor.value)
+      return (
+        <div class="flex flex-col items-center gap-2">
+          <div class="flex flex-col gap-2 bg-black border border-zinc-700 text-white p-4 rounded-lg">
+            <GameRow row={game.value!.code} key="coderow" />
+            <div class="h-2 border-t border-gray-500 my-2" />
+            {toReversed(game.value!.attempts).map((attempt, y) => (
+              <GameRow row={attempt} key={y} index={game.value!.attempts.length - 1 - y} />
+            ))}
+          </div>
+          <div class="flex gap-2">
+            {Array.from({ length: game.value!.nColors }).map((_, x) => (
+              <ColorDot key={x} color={x} onClick={() => toggleSelection(x)} selected={x == selectedColor.value} />
+            ))}
+          </div>
+          <button type="button" class="text-sm mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">
+            Submit Guess
+          </button>
+        </div>
+      )
+    }
   },
 })
 
 
-export const GameRow = defineComponent({
-  props: {
-    row: {
-      type: Object as PropType<Row>,
-      required: true,
-    },
-  },
-  setup(props) {
-    return () => (
-      <div class="flex gap-2">
-        {props.row.colors.map((cell, x) => (
-          <Dot key={x} color={cell} />
-        ))}
-      </div>
-    )
-  },
-})
