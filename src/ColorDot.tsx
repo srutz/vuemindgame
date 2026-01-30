@@ -1,15 +1,30 @@
 import { defineComponent, toRefs, type PropType } from 'vue'
+import { getRgb } from './colors'
+
+const COLORS = [
+  "red",
+  "green",
+  "blue",
+  "amber",
+  "violet",
+  "orange",
+  "pink",
+  "stone",
+] as const
+
 
 function getColor(color: number) {
   if (color < 0) return 'black'
-  const colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple']
-  return colors[color] || 'black'
+  const base = COLORS[color]
+  if (!base) return 'black'
+  return getRgb(base, 600)
 }
 
 function getBorderColor(color: number) {
-  if (color < 0) return 'gray'
-  const borderColors = ['darkred', 'darkgreen', 'darkblue', 'goldenrod', 'darkorange', 'indigo']
-  return borderColors[color] || 'gray'
+  if (color < 0) return 'black'
+  const base = COLORS[color]
+  if (!base) return 'black'
+  return getRgb(base, 400)
 }
 
 export const ColorDot = defineComponent({
@@ -34,7 +49,7 @@ export const ColorDot = defineComponent({
       onClick.value?.(event)
     }
     return () => {
-      console.log(`ColorDot ${color.value} rendering, selected:`, selected.value)
+      //console.log(`ColorDot ${color.value} rendering, selected:`, selected.value)
       return (
         <div
           class="w-8 h-8 rounded-full border border-zinc-700 shadow-lg cursor-pointer"

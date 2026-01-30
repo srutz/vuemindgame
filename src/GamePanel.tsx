@@ -10,18 +10,16 @@ function toReversed<T>(arr: T[]) {
 
 export const GamePanel = defineComponent({
   setup() {
-    const { game } = toRefs(useGameStore())
+
+    const gameStore = useGameStore();
+    const { game } = toRefs(gameStore)
+    console.log(gameStore.game, game)
     const selectedColor = ref(-1)
     function toggleSelection(color: number) {
-      console.log('toggleSelection called with color:', color, 'current selectedColor:', selectedColor.value)
       selectedColor.value = selectedColor.value === color ? -1 : color
-      console.log('new selectedColor:', selectedColor.value)
     }
-    watch(selectedColor, (newColor) => {
-      console.log('Selected color changed to', selectedColor.value)
-    })
     return () => {
-      console.log('GamePanel rendering, selectedColor:', selectedColor.value)
+      //console.log('GamePanel rendering, selectedColor:', selectedColor.value)
       return (
         <div class="flex flex-col items-center gap-2">
           <div class="flex flex-col gap-2 bg-black border border-zinc-700 text-white p-4 rounded-lg">

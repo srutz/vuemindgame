@@ -3,7 +3,7 @@ import { GamePanel } from '@/GamePanel'
 </script>
 
 <template>
-  <div class="h-1 grow self-stretch bg-zinc-900 text-white p-4 flex flex-col gap-2 items-center">
+  <div class="h-1 grow self-stretch bg-black text-white p-4 flex flex-col gap-2 items-center">
     <GamePanel />
   </div>
 </template>
