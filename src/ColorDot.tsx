@@ -21,9 +21,10 @@ function getColor(color: number) {
 }
 
 function getBorderColor(color: number) {
-  if (color < 0) return 'black'
+  const fallback = getRgb('zinc', 700)
+  if (color < 0) return fallback
   const base = COLORS[color]
-  if (!base) return 'black'
+  if (!base) return fallback
   return getRgb(base, 400)
 }
 

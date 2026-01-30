@@ -1,8 +1,8 @@
-import { defineComponent, ref, toRefs, watch } from 'vue'
+import { defineComponent, ref, toRefs } from 'vue'
 import { useGameStore } from './Game'
 import { ColorDot } from './ColorDot'
 import { GameRow } from './GameRow'
-import { MyButton } from './MyButton'
+import { MyButton } from './components/MyButton'
 
 function toReversed<T>(arr: T[]) {
   return [...arr].reverse()

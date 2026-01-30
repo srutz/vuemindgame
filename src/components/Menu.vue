@@ -7,7 +7,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useGameStore } from './Game'
+import { useGameStore } from '../Game'
 import { MyButton } from './MyButton'
 
 const { newGame } = useGameStore()
