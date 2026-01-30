@@ -2,16 +2,15 @@ import { defineComponent, ref, toRefs, watch } from 'vue'
 import { useGameStore } from './Game'
 import { ColorDot } from './ColorDot'
 import { GameRow } from './GameRow'
+import { MyButton } from './MyButton'
 
 function toReversed<T>(arr: T[]) {
   return [...arr].reverse()
 }
 
-
 export const GamePanel = defineComponent({
   setup() {
-
-    const gameStore = useGameStore();
+    const gameStore = useGameStore()
     const { game } = toRefs(gameStore)
     console.log(gameStore.game, game)
     const selectedColor = ref(-1)
@@ -31,16 +30,17 @@ export const GamePanel = defineComponent({
           </div>
           <div class="flex gap-2">
             {Array.from({ length: game.value!.nColors }).map((_, x) => (
-              <ColorDot key={x} color={x} onClick={() => toggleSelection(x)} selected={x == selectedColor.value} />
+              <ColorDot
+                key={x}
+                color={x}
+                onClick={() => toggleSelection(x)}
+                selected={x == selectedColor.value}
+              />
             ))}
           </div>
-          <button type="button" class="text-sm mt-4 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">
-            Submit Guess
-          </button>
+          <MyButton>Submit Guess</MyButton>
         </div>
       )
     }
   },
 })
-
-
