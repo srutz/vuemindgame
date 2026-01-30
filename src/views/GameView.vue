@@ -32,10 +32,8 @@ function onNewGame() {
     <template v-else>
       <div class="flex flex-col gap-4 items-center mt-8">
         <button @click="onNewGame"
-          class="text-2xl font-bold text-yellow-500 p-8 border border-zinc-800 hover:border-zinc-600 rounded-xl cursor-poiner">Start
-          a
-          New
-          Game</button>
+          class="text-2xl font-bold text-yellow-500 p-8 border border-zinc-800 hover:border-zinc-600 rounded-xl cursor-poiner">
+          Start a New Game</button>
       </div>
     </template>
   </div>
