@@ -29,15 +29,41 @@ export const ColorDot = defineComponent({
       required: false,
       default: false,
     },
+    draggable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     onClick: {
       type: Function as PropType<(event?: PointerEvent) => void>,
       required: false,
     },
+    onDragstart: {
+      type: Function as PropType<(event?: DragEvent) => void>,
+      required: false,
+    },
+    onDrop: {
+      type: Function as PropType<(event?: DragEvent) => void>,
+      required: false,
+    },
+    onDragover: {
+      type: Function as PropType<(event?: DragEvent) => void>,
+      required: false,
+    },
   },
   setup(props) {
-    const { selected, color, onClick } = toRefs(props)
+    const { selected, color, onClick, onDragstart, onDrop, onDragover, draggable } = toRefs(props)
     const handleClick = (event: PointerEvent) => {
       onClick.value?.(event)
+    }
+    const handleDragStart = (event: DragEvent) => {
+      onDragstart.value?.(event)
+    }
+    const handleDrop = (event: DragEvent) => {
+      onDrop.value?.(event)
+    }
+    const handleDragOver = (event: DragEvent) => {
+      onDragover.value?.(event)
     }
     return () => {
       //console.log(`ColorDot ${color.value} rendering, selected:`, selected.value)
@@ -50,7 +76,11 @@ export const ColorDot = defineComponent({
             borderColor: selected.value ? 'white' : getBorderColor(color.value),
             backgroundColor: getColor(color.value),
           }}
+          draggable={draggable.value}
           onClick={handleClick}
+          onDragstart={handleDragStart}
+          onDrop={handleDrop}
+          onDragover={handleDragOver}
         />
       )
     }
