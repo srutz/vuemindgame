@@ -1,14 +1,14 @@
 <template>
   <div v-if="game" class="flex flex-col items-center gap-2 mb-4">
     <div
-      class="flex flex-col gap-2 bg-black border border-zinc-700 bg-zinc-900 text-white p-4 rounded-lg"
+      class="flex flex-col gap-1 md:gap-2 bg-black border border-zinc-700 bg-zinc-900 text-white p-2 lg:p-4 rounded-lg"
     >
       <GameRow
         :row="game.code"
         :key="`code-${gameKey}`"
         :obscured="game.status !== 'lost' && !game.cheatMode"
       />
-      <div class="h-2 border-t border-gray-500 my-2" />
+      <div class="h-[1px] lg:h-2 lg:border-t border-gray-500 my-[1px] lg:my-2" />
       <GameRow
         v-for="(attempt, y) in toReversed(game.attempts)"
         :key="`${gameKey}-${y}`"
@@ -21,7 +21,7 @@
       />
     </div>
     <div v-if="game.status === 'playing'" class="flex gap-2 items-center">
-      <div class="flex gap-2 p-2">
+      <div class="flex gap-1 lg:gap-2 p-2">
         <ColorDot
           v-for="(_, x) in game.nColors"
           :key="x"
@@ -32,7 +32,7 @@
           @dragstart="(e) => e && handleDragStart(e, x)"
         />
       </div>
-      <MyButton class="text-sm" @click="handleSubmitAttempt">Submit Guess</MyButton>
+      <MyButton class="text-sm" @click="handleSubmitAttempt">Submit row</MyButton>
     </div>
   </div>
 </template>

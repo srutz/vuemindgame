@@ -1,10 +1,10 @@
 <template>
   <div
-    class="w-full flex flex-row items-baseline gap-4 bg-zinc-800 pt-2 pb-4 border-b border-zinc-700 px-4"
+    class="w-full flex flex-row items-center gap-4 bg-zinc-800 pt-2 pb-4 border-b border-zinc-700 px-4"
   >
-    <div class="text-3xl font-bold text-center mr-8">Vue Mind Game</div>
+    <div class="md:text-3xl font-bold text-center mr-8">Vue Mind-Game</div>
     <nav class="flex flex-row gap-2 items-center grow">
-      <div class="text-sm text-zinc-400">Game State: {{ gameState }}</div>
+      <div class="lg:visible hidden text-sm text-zinc-400">Game State: {{ gameState }}</div>
       <div class="grow"></div>
       <my-button class="text-sm" v-show="gameState !== 'stopped'" @click="handleNewGame"
         >Reset Game</my-button
