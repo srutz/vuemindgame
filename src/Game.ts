@@ -92,8 +92,8 @@ export const useGameStore = defineStore('game', () => {
         f1.push('correct')
       } else {
         // search for the color elsewhere
-        const color = attempt.colors[i]
-        if (color && code.colors.includes(color) && !misplacedColors.has(color)) {
+        const color = attempt.colors[i] ?? -1
+        if (color != -1 && code.colors.includes(color) && !misplacedColors.has(color)) {
           f2.push('misplaced')
           misplacedColors.add(color)
         }

@@ -1,17 +1,36 @@
 <template>
   <div v-if="game" class="flex flex-col items-center gap-2 mb-4">
-    <div class="flex flex-col gap-2 bg-black border border-zinc-700 bg-zinc-900 text-white p-4 rounded-lg">
-      <GameRow :row="game.code" :key="`code-${gameKey}`" :obscured="game.status !== 'lost' && !game.cheatMode" />
+    <div
+      class="flex flex-col gap-2 bg-black border border-zinc-700 bg-zinc-900 text-white p-4 rounded-lg"
+    >
+      <GameRow
+        :row="game.code"
+        :key="`code-${gameKey}`"
+        :obscured="game.status !== 'lost' && !game.cheatMode"
+      />
       <div class="h-2 border-t border-gray-500 my-2" />
-      <GameRow v-for="(attempt, y) in toReversed(game.attempts)" :key="`${gameKey}-${y}`" :row="attempt"
-        :active="y == game.attempts.length - 1 - game.currentAttempt" :index="game.attempts.length - 1 - y"
-        @dot-click="(e, y, x) => onClickGameDot(e, y, x)" @dot-drop="(e, y, x) => onDropGameDot(e, y, x)"
-        @dot-dragover="(e) => e.preventDefault()" />
+      <GameRow
+        v-for="(attempt, y) in toReversed(game.attempts)"
+        :key="`${gameKey}-${y}`"
+        :row="attempt"
+        :active="y == game.attempts.length - 1 - game.currentAttempt"
+        :index="game.attempts.length - 1 - y"
+        @dot-click="(e, y, x) => onClickGameDot(e, y, x)"
+        @dot-drop="(e, y, x) => onDropGameDot(e, y, x)"
+        @dot-dragover="(e) => e.preventDefault()"
+      />
     </div>
     <div v-if="game.status === 'playing'" class="flex gap-2 items-center">
       <div class="flex gap-2 p-2">
-        <ColorDot v-for="(_, x) in game.nColors" :key="x" :color="x" :selected="x === selectedColor" :draggable="true"
-          @click="toggleSelection(x)" @dragstart="(e) => e && handleDragStart(e, x)" />
+        <ColorDot
+          v-for="(_, x) in game.nColors"
+          :key="x"
+          :color="x"
+          :selected="x === selectedColor"
+          :draggable="true"
+          @click="toggleSelection(x)"
+          @dragstart="(e) => e && handleDragStart(e, x)"
+        />
       </div>
       <MyButton class="text-sm" @click="handleSubmitAttempt">Submit Guess</MyButton>
     </div>
@@ -44,6 +63,8 @@ function handleDragStart(e: DragEvent, color: number) {
   if (e.dataTransfer) {
     e.dataTransfer.effectAllowed = 'copy'
     e.dataTransfer.setData('text/plain', String(color))
+    const target = e.target as HTMLElement
+    e.dataTransfer.setDragImage(target, 16, 16)
   }
 }
 

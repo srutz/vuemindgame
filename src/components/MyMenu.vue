@@ -6,10 +6,10 @@
     <nav class="flex flex-row gap-2 items-center grow">
       <div class="text-sm text-zinc-400">Game State: {{ gameState }}</div>
       <div class="grow"></div>
-      <my-button class="text-xs" v-show="gameState !== 'stopped'" @click="handleNewGame"
+      <my-button class="text-sm" v-show="gameState !== 'stopped'" @click="handleNewGame"
         >Reset Game</my-button
       >
-      <my-button class="text-xs" v-show="gameState === 'playing'" @click="toggleCheatMode"
+      <my-button class="text-sm" v-show="gameState === 'playing'" @click="toggleCheatMode"
         >Toggle Cheat</my-button
       >
     </nav>
