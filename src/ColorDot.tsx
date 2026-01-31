@@ -1,17 +1,7 @@
 import { defineComponent, toRefs, type PropType } from 'vue'
 import { getRgb } from './colors'
 
-const COLORS = [
-  "red",
-  "green",
-  "blue",
-  "amber",
-  "violet",
-  "orange",
-  "pink",
-  "stone",
-] as const
-
+const COLORS = ['red', 'teal', 'blue', 'lime', 'violet', 'orange', 'pink', 'stone'] as const
 
 function getColor(color: number) {
   if (color < 0) return 'black'
@@ -57,12 +47,12 @@ export const ColorDot = defineComponent({
           style={{
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: selected.value ? "white" : getBorderColor(color.value),
-            backgroundColor: getColor(color.value)
+            borderColor: selected.value ? 'white' : getBorderColor(color.value),
+            backgroundColor: getColor(color.value),
           }}
           onClick={handleClick}
         />
       )
     }
-  }
+  },
 })

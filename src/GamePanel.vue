@@ -1,17 +1,35 @@
 <template>
-  <div v-if="game" class="flex flex-col items-center gap-2">
-    <div class="flex flex-col gap-2 bg-black border border-zinc-700 text-white p-4 rounded-lg">
-      <GameRow :row="game.code" :key="`code-${gameKey}`" />
+  <div v-if="game" class="flex flex-col items-center gap-2 mb-4">
+    <div
+      class="flex flex-col gap-2 bg-black border border-zinc-700 bg-zinc-900 text-white p-4 rounded-lg"
+    >
+      <GameRow
+        :row="game.code"
+        :key="`code-${gameKey}`"
+        :obscured="game.status !== 'lost' && !game.cheatMode"
+      />
       <div class="h-2 border-t border-gray-500 my-2" />
-      <GameRow v-for="(attempt, y) in toReversed(game.attempts)" :key="`${gameKey}-${y}`" :row="attempt"
-        :active="y == game.attempts.length - 1 - game.currentAttempt" :index="game.attempts.length - 1 - y"
-        @dot-click="(e, y, x) => onClickGameDot(e, y, x)" />
+      <GameRow
+        v-for="(attempt, y) in toReversed(game.attempts)"
+        :key="`${gameKey}-${y}`"
+        :row="attempt"
+        :active="y == game.attempts.length - 1 - game.currentAttempt"
+        :index="game.attempts.length - 1 - y"
+        @dot-click="(e, y, x) => onClickGameDot(e, y, x)"
+      />
     </div>
-    <div class="mt-8 flex gap-2">
-      <ColorDot v-for="(_, x) in game.nColors" :key="x" :color="x" :selected="x === selectedColor"
-        @click="toggleSelection(x)" />
+    <div v-if="game.status === 'playing'" class="flex gap-2 items-center">
+      <div class="flex gap-2 p-2">
+        <ColorDot
+          v-for="(_, x) in game.nColors"
+          :key="x"
+          :color="x"
+          :selected="x === selectedColor"
+          @click="toggleSelection(x)"
+        />
+      </div>
+      <MyButton class="text-sm" @click="handleSubmitAttempt">Submit Guess</MyButton>
     </div>
-    <MyButton class="mt-4" @click="handleSubmitAttempt">Submit Guess</MyButton>
   </div>
 </template>
 
@@ -28,7 +46,7 @@ function toReversed<T>(arr: T[]) {
 
 const gameStore = useGameStore()
 const game = computed(() => gameStore.game)
-const gameKey = computed(() => game.value ? JSON.stringify(game.value.code.colors) : '')
+const gameKey = computed(() => (game.value ? JSON.stringify(game.value.code.colors) : ''))
 const selectedColor = ref(-1)
 
 function toggleSelection(color: number) {

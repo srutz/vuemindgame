@@ -1,13 +1,23 @@
 <template>
-  <div class="flex items-center gap-2">
-    <div v-if="index >= 0" class="select-none w-12 text-center text-zinc-600 font-bold" :class="{ 'bg-white': active }">
+  <div class="flex items-center gap-2 relative">
+    <div
+      v-if="index >= 0"
+      class="select-none w-12 text-center text-zinc-600 font-bold"
+      :class="{ 'bg-white': active }"
+    >
       {{ index + 1 }}
     </div>
     <div v-else class="w-12" />
-    <ColorDot v-for="(cell, x) in row.colors" :key="x" :color="cell" @click="(e) => handleClick(e, x)" />
+    <ColorDot
+      v-for="(cell, x) in row.colors"
+      :key="x"
+      :color="cell"
+      @click="(e) => handleClick(e, x)"
+    />
     <div class="w-12 flex justify-end">
       <FeedbackHints :index="index" :feedbacks="row.feedbacks" />
     </div>
+    <div v-if="obscured" class="rounded-lg absolute inset-0 bg-zinc-800"></div>
   </div>
 </template>
 
@@ -20,6 +30,7 @@ interface Props {
   row: Row
   index?: number
   active?: boolean
+  obscured?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
