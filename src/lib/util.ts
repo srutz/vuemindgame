@@ -1,4 +1,3 @@
-
 export function randomPermutation<T>(arr: T[]) {
   const result = arr.slice()
   for (let i = result.length - 1; i > 0; i--) {
@@ -9,4 +8,3 @@ export function randomPermutation<T>(arr: T[]) {
   }
   return result
 }
-
